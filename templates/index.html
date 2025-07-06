@@ -1,0 +1,460 @@
+<!-- templates/index.html - Final Enhanced Version -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🌈 NutriScan AI | Complete Nutrition Assistant</title>
+    <style>
+        :root {
+            --primary: #6C63FF;
+            --secondary: #FF6584;
+            --accent: #42E2B8;
+            --bg: #F9F9FF;
+            --card: #FFFFFF;
+            --text: #333333;
+            --text-light: #666666;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            background: var(--card);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: var(--primary);
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        h2 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        
+        .emoji {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        
+        /* Input Form Styles */
+        .food-input {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #EDEDED;
+            border-radius: 12px;
+            font-size: 1rem;
+            margin: 15px 0;
+            transition: all 0.3s;
+        }
+        
+        .food-input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 16px;
+            width: 100%;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin: 10px 0 25px;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.2);
+        }
+        
+        .examples {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+        
+        /* Nutrition Cards */
+        .card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 25px;
+            margin-top: 20px;
+            border: 1px solid #F0F0F0;
+            text-align: left;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+        }
+        
+        .nutrition-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .nutrient {
+            background: rgba(249, 249, 255, 0.8);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .nutrient-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin: 5px 0;
+            color: var(--primary);
+        }
+        
+        .nutrient-label {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+        
+        /* Error Message */
+        .error {
+            color: #FF6584;
+            background: #FFF0F3;
+            padding: 12px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        
+        /* Insights Section */
+        .insights-card {
+            background: #F8FAFF;
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .insight-item {
+            margin-bottom: 10px;
+            padding-left: 15px;
+            position: relative;
+            text-align: left;
+        }
+        
+        .insight-item:before {
+            content: "•";
+            color: var(--accent);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        /* History Items */
+        .history-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .history-item:last-child {
+            border-bottom: none;
+        }
+        
+        /* Goals Form */
+        .goals-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            text-align: left;
+        }
+        
+        .goal-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #EDEDED;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .diet-selector {
+            grid-column: span 2;
+            margin: 10px 0;
+        }
+        
+        /* Meal Plan */
+        .meal-plan {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .meal-card {
+            background: rgba(66, 226, 184, 0.1);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: left;
+        }
+        
+        .meal-time {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        /* Chart */
+        .chart-container {
+            margin-top: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #EDEDED;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab.active {
+            border-bottom-color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Responsive */
+        @media (max-width: 500px) {
+            .goals-form, .meal-plan {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="emoji">🤖🍏</div>
+        <h1>NutriScan AI</h1>
+        <p style="color:var(--text-light)">Your complete nutrition intelligence platform</p>
+        
+        <!-- Tabs Navigation -->
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('track')">Track Food</div>
+            <div class="tab" onclick="switchTab('goals')">Set Goals</div>
+            <div class="tab" onclick="switchTab('plan')">Meal Plan</div>
+            <div class="tab" onclick="switchTab('trends')">Trends</div>
+        </div>
+        
+        <!-- Track Food Tab -->
+        <div id="track" class="tab-content active">
+            <form method="POST">
+                <input class="food-input" type="text" name="food" 
+                       placeholder="e.g. 1 banana, 2 roti with dal" required>
+                <button class="submit-btn" type="submit">Analyze Nutrition</button>
+            </form>
+            
+            <p class="examples">
+                Try: "1 bowl biryani", "2 idli with sambar", "1 plate palak paneer"
+            </p>
+
+            {% if error %}
+                <div class="error">{{ error }}</div>
+            {% endif %}
+
+            {% if nutrition %}
+            <div class="card">
+                <h3 style="margin-top:0;margin-bottom:15px;">Nutrition Facts</h3>
+                <div class="nutrition-grid">
+                    <div class="nutrient">
+                        <div class="nutrient-value">{{ nutrition.calories|round|int }}</div>
+                        <div class="nutrient-label">CALORIES</div>
+                    </div>
+                    <div class="nutrient">
+                        <div class="nutrient-value">{{ nutrition.protein|round(1) }}</div>
+                        <div class="nutrient-label">PROTEIN (g)</div>
+                    </div>
+                    <div class="nutrient">
+                        <div class="nutrient-value">{{ nutrition.fat|round(1) }}</div>
+                        <div class="nutrient-label">FAT (g)</div>
+                    </div>
+                    <div class="nutrient">
+                        <div class="nutrient-value">{{ nutrition.carbs|round(1) }}</div>
+                        <div class="nutrient-label">CARBS (g)</div>
+                    </div>
+                </div>
+            </div>
+            
+            {% if insights %}
+            <div class="insights-card">
+                <h3 style="margin-top:0;">AI Nutrition Insights</h3>
+                {% for insight in insights %}
+                    <div class="insight-item">{{ insight }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endif %}
+            
+            {% if history %}
+            <div class="card">
+                <h3 style="margin-top:0;">Your Recent Foods</h3>
+                {% for item in history %}
+                    <div class="history-item">
+                        <span>{{ item.food }}</span>
+                        <span>{{ item.calories|round|int }} cal</span>
+                    </div>
+                {% endfor %}
+                <a href="/clear" style="display:block; margin-top:10px; color:var(--primary); text-align:right; font-size:0.8rem;">
+                    Clear History
+                </a>
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Goals Tab -->
+        <div id="goals" class="tab-content">
+            <div class="card">
+                <h3 style="margin-top:0;">Set Your Nutrition Goals</h3>
+                <form method="POST">
+                    <input type="hidden" name="update_goals" value="1">
+                    
+                    <div class="goals-form">
+                        <div>
+                            <label>Calories</label>
+                            <input class="goal-input" type="number" name="calories" 
+                                   value="{{ goals.calories }}" required>
+                        </div>
+                        <div>
+                            <label>Protein (g)</label>
+                            <input class="goal-input" type="number" name="protein" 
+                                   value="{{ goals.protein }}" required>
+                        </div>
+                        <div>
+                            <label>Carbs (g)</label>
+                            <input class="goal-input" type="number" name="carbs" 
+                                   value="{{ goals.carbs }}" required>
+                        </div>
+                        <div>
+                            <label>Fat (g)</label>
+                            <input class="goal-input" type="number" name="fat" 
+                                   value="{{ goals.fat }}" required>
+                        </div>
+                        
+                        <div class="diet-selector">
+                            <label>Diet Type</label>
+                            <select class="goal-input" name="diet_type">
+                                <option value="balanced" {% if goals.diet_type == 'balanced' %}selected{% endif %}>Balanced</option>
+                                <option value="low-carb" {% if goals.diet_type == 'low-carb' %}selected{% endif %}>Low Carb</option>
+                                <option value="high-protein" {% if goals.diet_type == 'high-protein' %}selected{% endif %}>High Protein</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button class="submit-btn" type="submit">Update Goals</button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Meal Plan Tab -->
+        <div id="plan" class="tab-content">
+            <div class="card">
+                <h3 style="margin-top:0;">Your Personalized Meal Plan</h3>
+                <p style="color:var(--text-light); margin-top:-10px;">Based on your {{ goals.diet_type }} diet goals</p>
+                
+                <div class="meal-plan">
+                    <div class="meal-card">
+                        <div class="meal-time">Breakfast</div>
+                        <div>{{ meal_plan.breakfast[0] }}</div>
+                        <div style="color:var(--primary); font-size:0.9rem; margin-top:5px;">
+                            {{ meal_plan.breakfast[1] }}
+                        </div>
+                    </div>
+                    <div class="meal-card">
+                        <div class="meal-time">Lunch</div>
+                        <div>{{ meal_plan.lunch[0] }}</div>
+                        <div style="color:var(--primary); font-size:0.9rem; margin-top:5px;">
+                            {{ meal_plan.lunch[1] }}
+                        </div>
+                    </div>
+                    <div class="meal-card">
+                        <div class="meal-time">Dinner</div>
+                        <div>{{ meal_plan.dinner[0] }}</div>
+                        <div style="color:var(--primary); font-size:0.9rem; margin-top:5px;">
+                            {{ meal_plan.dinner[1] }}
+                        </div>
+                    </div>
+                    <div class="meal-card">
+                        <div class="meal-time">Snacks</div>
+                        <div>{{ meal_plan.snacks[0] }}</div>
+                        <div>{{ meal_plan.snacks[1] }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Trends Tab -->
+        <div id="trends" class="tab-content">
+            <div class="card">
+                <h3 style="margin-top:0;">Weekly Nutrition Trends</h3>
+                {% if chart %}
+                <div class="chart-container">
+                    <img src="data:image/png;base64,{{ chart }}" alt="Nutrition Trends Chart" style="width:100%;">
+                </div>
+                {% else %}
+                <p style="color:var(--text-light)">Track more foods to see your trends</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function switchTab(tabId) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Deactivate all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Activate selected tab
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+</body>
+</html>
